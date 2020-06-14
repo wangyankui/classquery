@@ -1,4 +1,4 @@
 from test import *
-a=login(conn, 17301017, 'wangjin123')
-if a:
-    print("yes")
+a=tuijian(conn,'YF',60,4,1,1,1)
+a1=[list(a[0]),list(a[1])]
+print(a1)

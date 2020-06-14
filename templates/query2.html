@@ -8,25 +8,26 @@
 <table border="1">
 <tr>
   <td>教室号码</td>
-  <td>教室状态</td>
-  <td>课程号</td>
+    <td>教室状态</td>
+    <td>课程号</td>
   <td>课程名</td>
   <td>教室容量</td>
   <td>电源插座数量</td>
   <td>多媒体设备</td>
   <td>无线网络</td>
   <td>空调</td>
+
 </tr>
 <tr>
-  <td>YF101</td>
-  <td>empty</td>
-  <td>000000</td>
-  <td>软件工程</td>
-  <td>80</td>
-  <td>4</td>
-  <td>有</td>
-  <td>有</td>
-  <td>有</td>
+    <td>{{ q['教室号码'] }}</td>
+    <td>{{ q['教室状态'] }}</td>
+    <td>课程号</td>
+  <td>课程名</td>
+  <td>{{ q['教室容量'] }}</td>
+  <td>{{ q['电源插座数量'] }}</td>
+  <td>{{ q['多媒体设备'] }}</td>
+  <td>{{ q['无线网络'] }}</td>
+  <td>{{ q['空调'] }}</td>
 </tr>
 </table>
 

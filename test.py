@@ -134,7 +134,7 @@ def timeToInt(week, hour):
         return t
 
 
-def youke(conn, classroom, week, hour):
+def issyouke(conn, classroom, week, hour):
     t = timeToInt(week, hour)
     if t != 0:
         where = 'classroom = \'' + classroom + '\' and time = ' + str(t)
@@ -158,6 +158,22 @@ def login(conn, uid, password):
     else:
         #print('登录成功')
         return 1
+
+
+def zhuce(conn, type, id, name, password):
+    table_name = 'user'
+    where = 'id = ' + str(id)
+    l = select(conn, table_name, where)
+    if len(l) == 0:
+        username = '\''+ name + '\''
+        uid = '\'' + str(id) + '\''
+        word = '\'' + password + '\''
+        type = '\'' + type + '\''
+        value = [username, word, type, uid]
+        insert(conn, table_name, value)
+        return 1
+    else:
+        return 0
 
 
 def occupied(conn, roomNum):
@@ -186,42 +202,58 @@ def occupied(conn, roomNum):
 
 
 def query(conn, roomNum):
+    querydict={}
     where = 'num = \'' + roomNum + '\''
     table_name = 'classroom'
     l1 = select(conn, table_name, where)
-    print('教室号码：' + l1[0][0] + '\n')
+    #print('教室号码：' + l1[0][0] + '\n')
+    querydict['教室号码']=l1[0][0]
     if (occupied(conn, roomNum) == 2) | (l1[0][1] == 1):
-        print('教室状态：已满')
+        #print('教室状态：已满')
+        querydict['教室状态']="已满"
     elif occupied(conn, roomNum) == 1:
-        print('教室状态：部分占用')
+        #print('教室状态：部分占用')
+        querydict['教室状态'] = "部分占用"
     else:
         now = datetime.datetime.now()
         week = now.weekday()
         hour = now.hour
-        if youke(conn, roomNum, week, hour) != 0:
-            print('教室状态：正在上课，')
-            c = youke(conn, roomNum, week, hour)
-            print('课程号：' + str(c[0][0]))
-            print('课程名：' + c[0][1])
+        if issyouke(conn, roomNum, week, hour) != 0:
+            #print('教室状态：正在上课，')
+            querydict['教室状态'] = "正在上课"
+            c = issyouke(conn, roomNum, week, hour)
+            #print('课程号：' + str(c[0][0]))
+            #querydict[''] = "已满"
+            #print('课程名：' + c[0][1])
         else:
-            print('教室状态：空闲')
-    print('\n')
-    print('教室容量：' + str(l1[0][3]) + '\n')
-    print('电源插座数量：' + str(l1[0][4]) + '\n')
+            #print('教室状态：空闲')
+            querydict['教室状态'] = "空闲"
+    #print('\n')
+    #print('教室容量：' + str(l1[0][3]) + '\n')
+    querydict['教室容量'] = str(l1[0][3])
+    #print('电源插座数量：' + str(l1[0][4]) + '\n')
+    querydict['电源插座数量'] = str(l1[0][4])
     if l1[0][5] == 1:
-        print('多媒体设备：有' + '\n')
+        #print('多媒体设备：有' + '\n')
+        querydict['多媒体设备'] = "有"
     else:
-        print('多媒体设备：无' + '\n')
+        #print('多媒体设备：无' + '\n')
+        querydict['多媒体设备'] = "无"
     if l1[0][6] == 1:
-        print('无线网络：有' + '\n')
+        #print('无线网络：有' + '\n')
+        querydict['无线网络'] = "有"
     else:
-        print('无线网络：无' + '\n')
+        #print('无线网络：无' + '\n')
+        querydict['无线网络'] = "无"
     if l1[0][7] == 1:
-        print('空调：有' + '\n')
+        #print('空调：有' + '\n')
+        querydict['空调'] = "有"
     else:
-        print('空调：无' + '\n')
+       # print('空调：无' + '\n')
+        querydict['空调'] = "无"
+    return querydict
 
-
+#1-正在上课，2-空位不足，3-成功，4-被占用，5-无此教室
 def yuyue(conn, roomNum, user, time, num):
     where = 'num = \'' + roomNum + '\''
     table_name = 'classroom'
@@ -232,8 +264,9 @@ def yuyue(conn, roomNum, user, time, num):
             week = now.weekday()
             hour = now.hour
             t = timeToInt(week, hour)
-            if youke(conn, roomNum, week, hour) != 0:
-                print('预约失败，此教室正在上课')
+            if issyouke(conn, roomNum, week, hour) != 0:
+                #print('预约失败，此教室正在上课')
+                return 1
             else:
                 where = 'classroom = \'' + roomNum + '\' and time = ' + str(t)
                 table_name = 'yuyue'
@@ -246,9 +279,11 @@ def yuyue(conn, roomNum, user, time, num):
                         i += 1
                     sum += int(num)
                     if sum > l1[0][3]:
-                        print('预约失败，空位不足')
+                        #print('预约失败，空位不足')
+                        return 2
                     else:
-                        print('预约成功')
+                        #print('预约成功')
+
                         table_name = 'yuyue'
                         userid = '\'' + str(user) + '\''
                         room = '\'' + roomNum + '\''
@@ -256,19 +291,23 @@ def yuyue(conn, roomNum, user, time, num):
                         n = '\'' + num + '\''
                         value = [userid, room, t, n]
                         insert(conn, table_name, value)
+                        return 3
                 else:
-                    print('预约成功')
+                    #print('预约成功')
                     table_name = 'yuyue'
-                    username = '\'' + user + '\''
+                    username = '\'' + str(user) + '\''
                     room = '\'' + roomNum + '\''
-                    t = '\'' + time + '\''
-                    n = '\'' + num + '\''
+                    t = '\'' + str(time) + '\''
+                    n = '\'' + str(num) + '\''
                     value = [username, room, t, n]
                     insert(conn, table_name, value)
+                    return 3
         else:
-            print('预约失败，此教室已被占用')
+            #print('预约失败，此教室已被占用')
+            return 4
     else:
-        print('预约失败,无此教室')
+        #print('预约失败,无此教室')
+        return 5
 
 
 def qxyy(conn, user, classroom, time, num):
@@ -283,16 +322,19 @@ def change_state(conn, userid, roomNum, attribute, value):
     u = select(conn, table_name, where)
     type = u[0][2]
     if type != 'manager':
-        print('权限不够')
+        #print('权限不够')
+        return 0
     else:
         where = 'num = \'' + roomNum + '\''
         set = attribute + '= \'' + str(value) + '\''
         table_name = 'classroom'
         update(conn, table_name, set, where)
+        return 1
 
 
 def tuijian(conn, loc, size, electronic, manyMedia, wifi, airConditioner):
     table_name = 'classroom'
     where = 'loc = \'' + loc + '\' and size >= \'' + str(size) + '\' and electronic >= \'' + str(electronic) + '\' and manyMedia >= \'' + str(manyMedia) + '\' and wifi >= \'' + str(wifi) + '\' and airConditioner >= \'' + str(airConditioner) + '\''
     l1 = select(conn, table_name, where)
-    print(l1)
+
+    return l1

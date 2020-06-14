@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Bootstrap模态登录框 - 源码之家</title>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
-
-
-
 <body>
-<button onclick="window.location.href = 'http://localhost:5000/youke'">
-    判断有课
-</button>
+<div class="login">
+    <div class="login_title">
+        <p><img src="{{ url_for('static', filename='images/jinghui.png') }}" style="width:80px;height:80px;margin-right:30px;"/>北京交通大学宿舍管理（系统名称）</p>
+    </div>
+    <div class="login_main">
+        <div class="main_left"></div>
+        <div class="main_right">
+            <div class="right_title">index</div>
 
-<button onclick="window.location.href = 'http://localhost:5000/query1'">
-    查询教室状态
-</button>
+                <div class="yes_login2"><button onclick="window.location.href = 'http://localhost:5000/youke'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;判断有课
+</button></div>
+                 <div class="yes_login2"><button onclick="window.location.href = 'http://localhost:5000/query1'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询教室状态
+</button></div>
+                  <div class="yes_login2"><button onclick="window.location.href = 'http://localhost:5000/yuyue0'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预约
+</button></div>
+                   <div class="yes_login2"><button onclick="window.location.href = 'http://localhost:5000/qxyy0'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;取消预约
+</button></div>
+                     <div class="yes_login2"><button onclick="window.location.href = 'http://localhost:5000/change_state0'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改变教室状态
+</button></div>
+                      <div class="yes_login2"><button onclick="window.location.href = 'http://localhost:5000/tuijian0'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推荐
+</button></div>
 
-<button onclick="window.location.href = 'http://localhost:5000/yuyue'">
-    预约
-</button>
+        </div>
+    </div>
+    <div class="login_footer">
+        <p class="name">版权所有：系统分析第十小组</p>
+		<p>建议浏览器：IE8及以上、360、谷歌、Firefox v22</p>
+        <p>技术支持：第十小组 &nbsp;&nbsp;联系电话：022-xxxxxx </p>
 
-<button onclick="window.location.href = 'http://localhost:5000/qxyy'">
-    取消预约
-</button>
+    </div>
+</div>
 
-<button onclick="window.location.href = 'http://localhost:5000/change_state'">
-    改变教室状态
-</button>
-
-<button onclick="window.location.href = 'http://localhost:5000/tuijian'">
-    推荐
-</button>
 </body>
 </html>

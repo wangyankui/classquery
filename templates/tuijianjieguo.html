@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tuijianjieguo</title>
+</head>
+<body>
+<h4>推荐教室如下：</h4>
+ {% for classroom in classrooms %}
+    <tr>
+    <table border="1">
+<tr>
+  <td>教室号码</td>
+    <td>教室状态</td>
+    <td>位置</td>
+  <td>教室容量</td>
+  <td>电源插座数量</td>
+  <td>多媒体设备</td>
+  <td>无线网络</td>
+  <td>空调</td>
+
+</tr>
+<tr>
+    <td>{{ classroom[0] }}</td>
+    <td>{{ classroom[1] }}</td>
+    <td>{{ classroom[2] }}</td>
+  <td>{{  classroom[3] }}</td>
+  <td>{{  classroom[4] }}</td>
+  <td>{{  classroom[5] }}</td>
+  <td>{{ classroom[6]}}</td>
+  <td>{{ classroom[7]}}</td>
+</tr>
+</table>
+    </tr>
+    {% endfor %}
+
+</body>
+</html>

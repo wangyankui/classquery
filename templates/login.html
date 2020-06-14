@@ -2,23 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
-    <form method = "post" action = "http://localhost:5000/validate">
-        <table>
-            <tr>
-                <td>User</td>
-                <td><input type = 'text' name = 'user'></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type = 'password' name = 'password'></td>
-            </tr>
-            <tr>
-                <td><input type = "submit" value = "Submit"></td>
-            </tr>
-        </table>
-    </form>
+<div class="login">
+    <div class="login_title">
+        <p><img src="{{ url_for('static', filename='images/jinghui.png') }}" style="width:80px;height:80px;margin-right:30px;"/>北京交通大学教室管理平台（系统名称）</p>
+    </div>
+    <div class="login_main">
+        <div class="main_left"></div>
+        <div class="main_right">
+            <div class="right_title">用户登录</div>
+            <form method = "post" action = "http://localhost:5000/validate">
+                <div class="username">
+                    <img src="{{ url_for('static', filename='images/username.png') }}" alt="">
+                    <input type="text" name='user' placeholder="请输入用户名">
+                </div>
+                <div class="password">
+                    <img src="{{  url_for('static',filename='images/password.png') }}" alt="">
+                    <input type="text" name="password" placeholder="请输入密码">
+                </div>
+
+                <div  class="yes_login"><td><input type = "submit" value = "登录"></td></div>
+            </form>
+            <div align="center"><td><button onclick="window.location.href = 'http://localhost:5000/register'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注册</button></td></div>
+
+        </div>
+    </div>
+    <div class="login_footer">
+        <p class="name">版权所有：系统设计第十小组</p>
+		<p>建议浏览器：IE8及以上、360、谷歌、Firefox v22</p>
+        <p>技术支持：第十小组 &nbsp;&nbsp;联系电话：022-xxxxxx </p>
+
+    </div>
+</div>
+
 </body>
 </html>
